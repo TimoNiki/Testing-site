@@ -1,2 +1,2 @@
-# Testing-site
-Это потом.
+404
+NotFound
