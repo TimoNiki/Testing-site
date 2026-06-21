@@ -117,46 +117,58 @@ backdrop-filter: blur(10px); border: 1px solid rgba(0,0,0,0.3); box-shadow: 0 0 
 <!-- СКРИПТЫ -->
 <script>
 function openWindow(id) {
-const win = document.getElementById(id);
-win.style.display = 'flex';
-bringToFront(win);
+  const win = document.getElementById(id);
+  win.style.display = 'flex';
+  bringToFront(win);
 }
-function closeWindow(id) { document.getElementById(id).style.display = 'none'; }
+function closeWindow(id) { 
+  document.getElementById(id).style.display = 'none'; 
+}
 function toggleStart() {
-const menu = document.getElementById('start-menu');
-menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+  const menu = document.getElementById('start-menu');
+  menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
 }
 document.querySelector('.desktop').addEventListener('click', () => {
-document.getElementById('start-menu').style.display = 'none';
+  document.getElementById('start-menu').style.display = 'none';
 });
 
 let maxZIndex = 10;
-function bringToFront(win) { maxZIndex++; win.style.zIndex = maxZIndex; }
+// Вот здесь была ошибка, теперь всё исправлено:
+function bringToFront(win) { 
+  maxZIndex++; 
+  win.style.zIndex = maxZIndex; 
+}
+
 document.querySelectorAll('.window').forEach(win => {
-win.addEventListener('mousedown', () => bringToFront(win));
+  win.addEventListener('mousedown', () => bringToFront(win));
 });
 
 document.querySelectorAll('.window').forEach(win => {
-const header = win.querySelector('.window-header');
-let isDragging = false; let offsetX, offsetY;
-header.addEventListener('mousedown', (e) => {
-if (e.target.classList.contains('close-btn')) return;
-isDragging = true; offsetX = e.clientX - win.offsetLeft; offsetY = e.clientY - win.offsetTop;
-bringToFront(win);
-});
-document.addEventListener('mousemove', (e) => {
-if (!isDragging) return;
-win.style.left = (e.clientX - offsetX) + 'px'; win.style.top = (e.clientY - offsetY) + 'px';
-});
-document.addEventListener('mouseup', () => { isDragging = false; });
+  const header = win.querySelector('.window-header');
+  let isDragging = false; let offsetX, offsetY;
+  header.addEventListener('mousedown', (e) => {
+    if (e.target.classList.contains('close-btn')) return;
+    isDragging = true; 
+    offsetX = e.clientX - win.offsetLeft; 
+    offsetY = e.clientY - win.offsetTop;
+    bringToFront(win);
+  });
+  document.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    win.style.left = (e.clientX - offsetX) + 'px'; 
+    win.style.top = (e.clientY - offsetY) + 'px';
+  });
+  document.addEventListener('mouseup', () => { isDragging = false; });
 });
 
 function updateClock() {
-const now = new Date();
-document.getElementById('clock-time').innerText = ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')};
-document.getElementById('clock-date').innerText = ${String(now.getDate()).padStart(2,'0')}.${String(now.getMonth()+1).padStart(2,'0')}.${now.getFullYear()};
+  const now = new Date();
+  document.getElementById('clock-time').innerText = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  document.getElementById('clock-date').innerText = `${String(now.getDate()).padStart(2,'0')}.${String(now.getMonth()+1).padStart(2,'0')}.${now.getFullYear()}`;
 }
-updateClock(); setInterval(updateClock, 1000);
+updateClock(); 
+setInterval(updateClock, 1000);
+
 </script>
 </body>
 </html>
